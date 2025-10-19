@@ -2,9 +2,9 @@
 
 namespace Carrot.Net;
 
-public sealed class StringView : IView
+public sealed class PlainForm : IForm
 {
-    public StringView(int initialWidth, int initialHeight)
+    public PlainForm(int initialWidth, int initialHeight)
     {
         this.glyphs = new Glyph[initialWidth, initialHeight];
     }

@@ -1,6 +1,6 @@
 ﻿namespace Carrot.Net;
 
-public interface IView
+public interface IForm
 {
     public void SetGlyph(Glyph glyph, int row, int column);
 }

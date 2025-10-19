@@ -1,10 +1,10 @@
 ﻿using System.Globalization;
 
-namespace Carrot.Net.Components;
+namespace Carrot.Net.Blocks;
 
-public sealed class TextComponent(string text) : IComponent
+public sealed class TestBlock(string text) : IBlock
 {
-    public void Render(IView targetView)
+    public void Render(IForm targetForm)
     {
         string[] lines = text.Split('\n');
 
@@ -17,7 +17,7 @@ public sealed class TextComponent(string text) : IComponent
             
             while (enumerator.MoveNext())
             {
-                targetView.SetGlyph(new Glyph(enumerator.GetTextElement()), currentRow, currentColumn);
+                targetForm.SetGlyph(new Glyph(enumerator.GetTextElement()), currentRow, currentColumn);
                 
                 ++currentColumn;
             }

@@ -1,9 +1,14 @@
 ﻿using System.Globalization;
 
-namespace Carrot.Net.Blocks;
+namespace CarrotNet.Blocks;
 
-public sealed class TestBlock(string text) : IBlock
+/// <summary>
+///     A block representing a (multi-line) text.
+/// </summary>
+/// <param name="text">The text represented by the block.</param>
+public sealed class TextBlock(string text) : IBlock
 {
+    /// <inheritdoc />
     public void Render(IForm targetForm)
     {
         string[] lines = text.Split('\n');
@@ -24,5 +29,15 @@ public sealed class TestBlock(string text) : IBlock
 
             ++currentRow;
         }
+    }
+
+    /// <inheritdoc />
+    public (int Width, int Height) CalculateExtent()
+    {
+        string[] lines = text.Split('\n');
+        
+        int maxLineLength = lines.Max(line => line.Length);
+
+        return (maxLineLength, lines.Length);
     }
 }

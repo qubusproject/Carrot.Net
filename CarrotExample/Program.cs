@@ -2,7 +2,9 @@
 using CarrotNet;
 using CarrotNet.Blocks;
 
-PlainForm form = new(120, 5);
+var targetInfo = TargetInfo.GetStdoutTarget();
+
+PlainForm form = new(120, 5, targetInfo);
 
 GridBlock grid = new(3, 1);
 

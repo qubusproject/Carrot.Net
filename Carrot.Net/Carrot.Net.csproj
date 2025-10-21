@@ -8,4 +8,8 @@
         <Version>1.0.0-alpha.1</Version>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="TermInfo" Version="0.4.0" />
+    </ItemGroup>
+
 </Project>

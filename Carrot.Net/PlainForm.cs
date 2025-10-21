@@ -16,7 +16,8 @@ public sealed class PlainForm : IForm
     /// </summary>
     /// <param name="initialWidth">The initial width of the form.</param>
     /// <param name="initialHeight">The intial height of the form.</param>
-    public PlainForm(int initialWidth, int initialHeight)
+    /// <param name="target">The target to which this form will be rendered.</param>
+    public PlainForm(int initialWidth, int initialHeight, TargetInfo target)
     {
         this.glyphs = new Glyph[initialHeight, initialWidth];
 
@@ -27,6 +28,8 @@ public sealed class PlainForm : IForm
                 this.glyphs[row, column] = new Glyph();
             }
         }
+        
+        this.target = target;
     }
     
     /// <inheritdoc />
@@ -46,13 +49,37 @@ public sealed class PlainForm : IForm
     {
         StringBuilder builder = new();
 
+        const int numberOfBaseColors = 16;
+        
+        ColorMap cmap = new(Color.XTermColorTable.Take(numberOfBaseColors).ToList());
+        
+        TerminalEscapeSequence currentEscapeSequence = new();
+
         for (int row = 0; row < this.glyphs.GetLength(0); ++row)
         {
             int rowStop = renderSparsely ? this.determineRowStop(row) : this.glyphs.GetLength(1);
             
             for (int column = 0; column < rowStop; ++column)
             {
-                builder.Append(this.glyphs[row, column].Content);
+                Glyph glyph = this.glyphs[row, column];
+
+                if (this.target.SupportsColorizedOutput)
+                {
+                    TerminalEscapeSequence escapeSequence = TerminalEscapeSequence.GetEscapeSequence(
+                        glyph.ForegroundColor,
+                        glyph.BackgroundColor,
+                        cmap,
+                        glyph.Bold);
+
+                    if (escapeSequence != currentEscapeSequence)
+                    {
+                        builder.Append(escapeSequence.RenderEscapeSequence());
+
+                        currentEscapeSequence = escapeSequence;
+                    }
+                }
+
+                builder.Append(glyph.Content);
             }
             
             builder.AppendLine();
@@ -124,4 +151,9 @@ public sealed class PlainForm : IForm
     ///     The grid of glyphs.
     /// </summary>
     private Glyph[,] glyphs;
+    
+    /// <summary>
+    ///     The target to which this form will be rendered.
+    /// </summary>
+    private readonly TargetInfo target;
 }

@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>CarrotNet</RootNamespace>
-        <Version>1.0.0-alpha.1</Version>
+        <Version>1.0.0-alpha.2</Version>
         <Title>Carrot.Net</Title>
         <Authors>Qubus Project</Authors>
         <Description>A library for rendering code and diagnostic messages in a structured and composable fashion.</Description>

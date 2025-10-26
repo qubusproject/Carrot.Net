@@ -11,15 +11,11 @@ style.AddRule(blockSelector: "framed-block",
 
 PlainForm form = new(120, 5, targetInfo);
 
-GridBlock grid = new(3, 1);
+IBlock[] codeBlocks = [new TextBlock("{"), new IndentBlock(4, new TextBlock("Hello, world!")), new TextBlock("}")];
 
-grid[0, 0] = new TextBlock("{");
+LineBlock codeColumn = new(codeBlocks, Direction.Down);
 
-grid[1, 0] = new IndentBlock(4, new TextBlock("Hello, world!"));
-
-grid[2, 0] = new TextBlock("}");
-
-CaretUnderlineBlock underline = new(grid, 9);
+CaretUnderlineBlock underline = new(codeColumn, 9);
 
 FramedBlock framed = new(underline);
 

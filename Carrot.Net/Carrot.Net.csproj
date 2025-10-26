@@ -6,6 +6,14 @@
         <Nullable>enable</Nullable>
         <RootNamespace>CarrotNet</RootNamespace>
         <Version>1.0.0-alpha.1</Version>
+        <Title>Carrot.Net</Title>
+        <Authors>Qubus Project</Authors>
+        <Description>A library for rendering code and diagnostic messages in a structured and composable fashion.</Description>
+        <Copyright>2025</Copyright>
+        <PackageProjectUrl>https://github.com/qubusproject/Carrot.Net</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/qubusproject/Carrot.Net</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>Diagnostic, Code, Rendering, Text, Terminal</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

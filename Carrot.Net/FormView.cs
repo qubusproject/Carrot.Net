@@ -13,4 +13,7 @@ internal sealed class FormView(IForm baseForm, int rowOffset, int columnOffset) 
     {
         baseForm.SetGlyph(glyph, row + rowOffset, column + columnOffset);
     }
+    
+    /// <inheritdoc />
+    public TargetInfo Target => baseForm.Target;
 }

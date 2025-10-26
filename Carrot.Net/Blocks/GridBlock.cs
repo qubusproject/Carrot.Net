@@ -19,9 +19,9 @@ public sealed class GridBlock(int rows, int columns) : IBlock
     }
     
     /// <inheritdoc />
-    public void Render(IForm targetForm)
+    public void Render(IForm targetForm, IStyle style)
     {
-        var (rowHeights, columnWidths) = this.computeLayout();
+        var (rowHeights, columnWidths) = this.computeLayout(targetForm.Target, style);
 
         int rowOffset = 0;
 
@@ -33,7 +33,7 @@ public sealed class GridBlock(int rows, int columns) : IBlock
             {
                 FormView view = new (targetForm, rowOffset, columnOffset);
 
-                this.grid[row, column].Render(view);
+                this.grid[row, column].Render(view, style);
 
                 columnOffset += columnWidths[column];
             }
@@ -43,9 +43,9 @@ public sealed class GridBlock(int rows, int columns) : IBlock
     }
 
     /// <inheritdoc />
-    public (int Width, int Height) CalculateExtent()
+    public (int Width, int Height) CalculateExtent(TargetInfo target, IStyle style)
     {
-        var (rowHeights, columnWidths) = this.computeLayout();
+        var (rowHeights, columnWidths) = this.computeLayout(target, style);
 
         int height = rowHeights.Sum();
         int width  = columnWidths.Sum();
@@ -57,7 +57,7 @@ public sealed class GridBlock(int rows, int columns) : IBlock
     ///     Computes the layout of the grid.
     /// </summary>
     /// <returns>the heights of each glyph row and the width of each glyph column.</returns>
-    private (List<int> RowHeights, List<int> ColumnWidths) computeLayout()
+    private (List<int> RowHeights, List<int> ColumnWidths) computeLayout(TargetInfo target, IStyle style)
     {
         List<int> rowHeights   = Enumerable.Repeat(0, this.grid.GetLength(0)).ToList();
         List<int> columnWidths = Enumerable.Repeat(0, this.grid.GetLength(1)).ToList();
@@ -66,7 +66,7 @@ public sealed class GridBlock(int rows, int columns) : IBlock
         {
             for (int column = 0; column < this.grid.GetLength(1); ++column)
             {
-                var (width, height) = this.grid[row, column].CalculateExtent();
+                var (width, height) = this.grid[row, column].CalculateExtent(target, style);
 
                 rowHeights[row]      = Math.Max(rowHeights[row], height);
                 columnWidths[column] = Math.Max(columnWidths[column], width);

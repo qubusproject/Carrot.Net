@@ -8,15 +8,15 @@
 public sealed class IndentBlock(int indentationLevel, IBlock indentedBlock) : IBlock
 {
     /// <inheritdoc />
-    public void Render(IForm targetForm)
+    public void Render(IForm targetForm, IStyle style)
     {
-        indentedBlock.Render(new FormView(targetForm, 0, indentationLevel));
+        indentedBlock.Render(new FormView(targetForm, 0, indentationLevel), style);
     }
     
     /// <inheritdoc />
-    public (int Width, int Height) CalculateExtent()
+    public (int Width, int Height) CalculateExtent(TargetInfo target, IStyle style)
     {
-        var (indentedBlockWidth, indentedBlockHeight) = indentedBlock.CalculateExtent();
+        var (indentedBlockWidth, indentedBlockHeight) = indentedBlock.CalculateExtent(target, style);
         
         return (indentedBlockWidth + indentationLevel, indentedBlockHeight);
     }

@@ -9,7 +9,7 @@ namespace CarrotNet.Blocks;
 public sealed class TextBlock(string text) : IBlock
 {
     /// <inheritdoc />
-    public void Render(IForm targetForm)
+    public void Render(IForm targetForm, IStyle style)
     {
         string[] lines = text.Split('\n');
 
@@ -32,7 +32,7 @@ public sealed class TextBlock(string text) : IBlock
     }
 
     /// <inheritdoc />
-    public (int Width, int Height) CalculateExtent()
+    public (int Width, int Height) CalculateExtent(TargetInfo target, IStyle style)
     {
         string[] lines = text.Split('\n');
         

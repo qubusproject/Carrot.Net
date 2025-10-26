@@ -12,6 +12,11 @@ public interface IForm
     /// <param name="row">The row index.</param>
     /// <param name="column">The column index.</param>
     public void SetGlyph(Glyph glyph, int row, int column);
+
+    /// <summary>
+    ///     The target to which this form is rendered.
+    /// </summary>
+    public TargetInfo Target { get; }
 }
 
 /// <summary>

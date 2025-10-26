@@ -8,11 +8,11 @@
 public sealed class CaretUnderlineBlock(IBlock underlinedBlock, int position) : IBlock
 {
     /// <inheritdoc />
-    public void Render(IForm targetForm)
+    public void Render(IForm targetForm, IStyle style)
     {
-        var (underlinedBlockWidth, underlinedBlockHeight) = underlinedBlock.CalculateExtent();
+        var (underlinedBlockWidth, underlinedBlockHeight) = underlinedBlock.CalculateExtent(targetForm.Target, style);
 
-        underlinedBlock.Render(targetForm);
+        underlinedBlock.Render(targetForm, style);
 
         for (int i = 0; i < underlinedBlockWidth; ++i)
         {
@@ -28,9 +28,9 @@ public sealed class CaretUnderlineBlock(IBlock underlinedBlock, int position) : 
     }
 
     /// <inheritdoc />
-    public (int Width, int Height) CalculateExtent()
+    public (int Width, int Height) CalculateExtent(TargetInfo target, IStyle style)
     {
-        var (underlinedBlockWidth, underlinedBlockHeight) = underlinedBlock.CalculateExtent();
+        var (underlinedBlockWidth, underlinedBlockHeight) = underlinedBlock.CalculateExtent(target, style);
         
         return (underlinedBlockWidth, underlinedBlockHeight + 1);
     }

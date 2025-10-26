@@ -4,6 +4,11 @@ using CarrotNet.Blocks;
 
 var targetInfo = TargetInfo.GetStdoutTarget();
 
+UserDefinedStyle style = new();
+
+style.AddRule(blockSelector: "framed-block",
+              attributes: new Dictionary<string, object> { ["margin-x"] = 3, ["margin-y"] = 1, });
+
 PlainForm form = new(120, 5, targetInfo);
 
 GridBlock grid = new(3, 1);
@@ -16,9 +21,9 @@ grid[2, 0] = new TextBlock("}");
 
 CaretUnderlineBlock underline = new(grid, 9);
 
-FrameBlock frame = new(underline, 3, 1);
+FramedBlock framed = new(underline);
 
-frame.Render(form);
+framed.Render(form, style);
 
 string renderedResult = form.ToPrintableString();
 

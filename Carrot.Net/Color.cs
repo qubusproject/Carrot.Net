@@ -171,6 +171,11 @@ public static class Color
     }
 
     /// <summary>
+    ///     The default color.
+    /// </summary>
+    public static DefaultColor Default => new();
+
+    /// <summary>
     ///     The xterm color table.
     /// </summary>
     public static readonly HslColor[] XTermColorTable =

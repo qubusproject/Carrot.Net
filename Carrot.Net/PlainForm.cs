@@ -29,7 +29,7 @@ public sealed class PlainForm : IForm
             }
         }
         
-        this.target = target;
+        this.Target = target;
     }
     
     /// <inheritdoc />
@@ -39,6 +39,9 @@ public sealed class PlainForm : IForm
         
         this.glyphs[row, column] = glyph;
     }
+    
+    /// <inheritdoc />
+    public TargetInfo Target { get; }
 
     /// <summary>
     ///     Renders the form into a printable string.
@@ -63,7 +66,7 @@ public sealed class PlainForm : IForm
             {
                 Glyph glyph = this.glyphs[row, column];
 
-                if (this.target.SupportsColorizedOutput)
+                if (this.Target.SupportsColorizedOutput)
                 {
                     TerminalEscapeSequence escapeSequence = TerminalEscapeSequence.GetEscapeSequence(
                         glyph.ForegroundColor,
@@ -151,9 +154,4 @@ public sealed class PlainForm : IForm
     ///     The grid of glyphs.
     /// </summary>
     private Glyph[,] glyphs;
-    
-    /// <summary>
-    ///     The target to which this form will be rendered.
-    /// </summary>
-    private readonly TargetInfo target;
 }

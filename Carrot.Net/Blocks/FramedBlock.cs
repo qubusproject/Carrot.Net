@@ -4,14 +4,15 @@
 ///     A block representing a piece of content framed by a border.
 /// </summary>
 /// <param name="framedBlock">The framed block.</param>
-/// <param name="marginX">The margin between border and block content in x direction.</param>
-/// <param name="marginY">The margin between border and block content in y direction.</param>
-public sealed class FrameBlock(IBlock framedBlock, int marginX, int marginY) : IBlock
+public sealed class FramedBlock(IBlock framedBlock) : IBlock
 {
     /// <inheritdoc />
-    public void Render(IForm targetForm)
+    public void Render(IForm targetForm, IStyle style)
     {
-        var (framedBlockWidth, framedBlockHeight) = framedBlock.CalculateExtent();
+        int marginX = style.GetValueAttribute<int>("framed-block", "", [], "margin-x") ?? 0;
+        int marginY = style.GetValueAttribute<int>("framed-block", "", [], "margin-y") ?? 0;
+        
+        var (framedBlockWidth, framedBlockHeight) = framedBlock.CalculateExtent(targetForm.Target, style);
 
         for (int i = 0; i < framedBlockWidth + 2 * marginX + 2; ++i)
         {
@@ -27,13 +28,16 @@ public sealed class FrameBlock(IBlock framedBlock, int marginX, int marginY) : I
 
         FormView view = new(targetForm, 1 + marginY, 1 + marginX);
 
-        framedBlock.Render(view);
+        framedBlock.Render(view, style);
     }
 
     /// <inheritdoc />
-    public (int Width, int Height) CalculateExtent()
+    public (int Width, int Height) CalculateExtent(TargetInfo target, IStyle style)
     {
-        var (framedBlockWidth, framedBlockHeight) = framedBlock.CalculateExtent();
+        int marginX = style.GetAttribute("framed-block", "", [], "margin-x") as int? ?? 0;
+        int marginY = style.GetAttribute("framed-block", "", [], "margin-y") as int? ?? 0;
+        
+        var (framedBlockWidth, framedBlockHeight) = framedBlock.CalculateExtent(target, style);
 
         return (framedBlockWidth + 2 * marginX + 2,  framedBlockHeight + 2 * marginY + 2);
     }
